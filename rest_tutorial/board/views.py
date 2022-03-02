@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Create your views here.
 from django.http import JsonResponse
 from .serializers import BoardSerializer
+from rest_framework import generics, pagination, viewsets
 from .models import board
+from rest_framework.filters import SearchFilter
+from rest_framework.viewsets import ModelViewSet
 
 def viewjson(request):
     return JsonResponse("REST API end point...", safe=False)
@@ -30,9 +34,38 @@ def boardList(request):
 
     return Response(serializer.data)
 
-@api_view(['GET'])
-def boardView(request, mbti):
-    boards = board.objects.filter(mbti=mbti)
-    serializer = BoardSerializer(boards, many=True)
+# @api_view(['GET'])
+# def boardView(request, mbti):
+#     boards = board.objects.filter(mbti=mbti)
+#     serializer = BoardSerializer(boards, many=True)
+#     return Response(serializer.data)
 
-    return Response(serializer.data)
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 20
+
+
+class CustomBoardList(generics.ListAPIView):
+    # 시리얼라이저
+    serializer_class = BoardSerializer
+    # setting.py에 먼저 page size 정의해줌
+    pagination_class = LargeResultsSetPagination
+    # get_queryset사용으로 board모델 안에 있는거 다 갖고 와
+    def get_queryset(self):
+        # qs = board.objects.filter(mbti=mbti)
+        input_params = {k: v for k, v in self.kwargs.items()}
+        # TODO error handler
+        input_val = input_params['mbti']
+        qs = board.objects.filter(mbti=input_val)
+        # qs = board.objects.all()
+        return qs
+
+
+# class CustomBoardList(generics.ListAPIView):
+#     serializers = BoardSerializer
+#     queryset = board.objects.all()
+#     filter_backends = [SearchFilter]
+#     search_fields = ('mbti',)
+#     def get(self, request):
+#         req = request.GET

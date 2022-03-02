@@ -10,7 +10,7 @@ class board(models.Model):
     # short_code = models.CharField(db_column='shord_code', max_length=250)
     # media_id = models.CharField(db_column='media_id', max_length=250)
     # published_at = models.DateTimeField(db_column='published_at', )
-    # tag_list = models.CharField(db_column='tag_list', max_length=250)
+    tag_list = models.CharField(db_column='tag_list', max_length=250)
     # user_id = models.CharField(db_column='user_id', max_length=250)
 
     class Meta:
