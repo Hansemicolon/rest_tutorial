@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # rest_tutorial url에서 board의 url을 가르키고 있음
     path('', include('board.urls')),
+    path('login/', include('login.urls'))
 ]

@@ -34,18 +34,31 @@ def boardList(request):
 
     return Response(serializer.data)
 
-# @api_view(['GET'])
-# def boardView(request, mbti):
-#     boards = board.objects.filter(mbti=mbti)
-#     serializer = BoardSerializer(boards, many=True)
-#     return Response(serializer.data)
+@api_view(['PUT'])
+def boardUpdate(request, user_name):
+    boards = board.objects.get(user_name=user_name)
+    serializer = BoardSerializer(instance=boards, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def boardInsert(request):
+    #request.data안에는 json형태의 데이터가 들어있음
+    # 직렬화 시켜서 저장
+    serializer = BoardSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
 
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 20
     page_size_query_param = 'page_size'
     max_page_size = 20
 
-
+# 쿼리스트링 ->
 class CustomBoardList(generics.ListAPIView):
     # 시리얼라이저
     serializer_class = BoardSerializer
@@ -58,14 +71,4 @@ class CustomBoardList(generics.ListAPIView):
         # TODO error handler
         input_val = input_params['mbti']
         qs = board.objects.filter(mbti=input_val)
-        # qs = board.objects.all()
         return qs
-
-
-# class CustomBoardList(generics.ListAPIView):
-#     serializers = BoardSerializer
-#     queryset = board.objects.all()
-#     filter_backends = [SearchFilter]
-#     search_fields = ('mbti',)
-#     def get(self, request):
-#         req = request.GET

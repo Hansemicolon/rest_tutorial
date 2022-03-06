@@ -15,4 +15,4 @@ class board(models.Model):
 
     class Meta:
         managed = False
-        db_table = 't_insta_crawler'
+        db_table = 't_insta_data'
