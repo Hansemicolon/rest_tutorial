@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Create your views here.
 from django.http import JsonResponse
 from .serializers import BoardSerializer
-from rest_framework import generics, pagination, viewsets
+from rest_framework import generics
 from .models import board
-from rest_framework.filters import SearchFilter
-from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 def viewjson(request):
     return JsonResponse("REST API end point...", safe=False)
@@ -62,11 +62,12 @@ class LargeResultsSetPagination(PageNumberPagination):
 class CustomBoardList(generics.ListAPIView):
     # 시리얼라이저
     serializer_class = BoardSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     # setting.py에 먼저 page size 정의해줌
     pagination_class = LargeResultsSetPagination
     # get_queryset사용으로 board모델 안에 있는거 다 갖고 와
     def get_queryset(self):
-        # qs = board.objects.filter(mbti=mbti)
         input_params = {k: v for k, v in self.kwargs.items()}
         # TODO error handler
         input_val = input_params['mbti']

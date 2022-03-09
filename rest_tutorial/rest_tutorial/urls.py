@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # rest_tutorial url에서 board의 url을 가르키고 있음
     path('', include('board.urls')),
-    path('login/', include('login.urls'))
+    path('login/', include('login.urls')),
 ]
