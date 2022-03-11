@@ -89,12 +89,12 @@ WSGI_APPLICATION = 'rest_tutorial.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sys',
-        'USER': 'admin',
-        'PASSWORD': 'Tpalsla118',
-        'HOST': 'mbti-database.cttagzdge7sl.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'ENGINE': '',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         },

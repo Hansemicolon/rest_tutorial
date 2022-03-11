@@ -20,4 +20,3 @@ class SignupView(CreateAPIView):
 class CustomTokenPairView(TokenObtainPairView):
     serializer_class = CustomTokenPairSerializer
 
-

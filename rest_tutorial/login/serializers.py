@@ -31,7 +31,6 @@ class CustomTokenPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         # user는 입력한 username임 ->semi
-        print(user)
         return RefreshToken.for_user(user)
 
     def validate(self, attrs):
@@ -49,3 +48,15 @@ class CustomTokenPairSerializer(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
         data['username'] = str(self.user.username)
         return data
+# bert?
+# 코벌트? 벌트를 만ㄷ름?
+# 뭔소리임?
+# postgre sql 만들면 데이터 밀어 넣기
+# 인덱스 설계 ->
+# 각자 수집한 데이타로 es인덱스 구성하기 -> 제이 블로그 중에 노리 필터 -> 명사만 추출 -> 에널라이저 붙여서 인덱스 구정
+# 키바나 준비되어있으니까 한번 보여주기 (198.2??????)
+# mbti만 우선 인덱스에 넣어놓고
+# 노리가 매캅 -> 사용자 사전 편집 가능? -> 할 수 있는데 되게 안좋음
+# 유저딕트 조사해오기 -> 실제 추가 하는 방법
+# 필터로 게시물에서 노리로 발라지고 -> 필드에 넣어서 실제로 검색할 수 있게
+# 인프제,,, 인팁,,, intp,,,아이엔티피
